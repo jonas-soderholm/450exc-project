@@ -3,6 +3,8 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Environment, Html } from "@react-three/drei";
 import { gsap } from "gsap";
 import { Camera, Vector3 } from "three";
+import { button, useControls } from "leva";
+import { Button } from "./Buttons";
 
 function MainPage() {
   const { scene: exc } = useGLTF("/450exc.glb");
@@ -11,37 +13,28 @@ function MainPage() {
   const [targetPosition, setTargetPosition] = useState([1, 1, 1]);
   const [specific, setSpecific] = useState([1, 1, 1]);
   const [rotate, setRotate] = useState(true);
-
   const [zoom, setZoom] = useState(1);
-  const transitionDuration = 1;
+  const [transitionDuration, setTransitionDuration] = useState(5);
 
   const handleZoomInTransition = (target) => {
     setTargetPosition(target);
 
     if (!rotate) {
-      cameraRef.current.position.set(0, 5, 0);
+      cameraRef.current.position.set(0, 1, 0);
     }
   };
-  useEffect(() => {
-    const handlePointerMove = (event) => {
-      if (event.buttons === 1) {
-        // Check if left mouse button is pressed
-        console.log("Camera Position:", orbitControlsRef.current.object.position);
-      }
-    };
+  const meshPosition = useControls("Position", {
+    x: 0,
+    y: 0,
+    z: 0,
+  });
 
-    document.addEventListener("pointermove", handlePointerMove);
-
-    return () => {
-      document.removeEventListener("pointermove", handlePointerMove);
-    };
-  }, []);
   useEffect(() => {
     if (orbitControlsRef.current) {
       // Use GSAP's lerp function to smoothly transition the camera position and zoom
       gsap.to(orbitControlsRef.current.target, {
         x: targetPosition[0],
-        y: targetPosition[1] - 0.5,
+        y: targetPosition[1] - 0.4,
         z: targetPosition[2],
         duration: transitionDuration,
       });
@@ -49,11 +42,14 @@ function MainPage() {
         x: targetPosition[0] + specific[0],
         y: targetPosition[1] + specific[1],
         z: targetPosition[2] + specific[2],
+        // x: targetPosition[0] + meshPosition.x,
+        // y: targetPosition[1] + meshPosition.y,
+        // z: targetPosition[2] + meshPosition.z,
         duration: transitionDuration,
       });
       gsap.to(orbitControlsRef.current.object, { duration: transitionDuration });
     }
-  }, [targetPosition, zoom]);
+  }, [targetPosition, zoom, meshPosition]);
 
   return (
     <div className="h-[100vh] w-[100vw] bg-[#8dff2a] relative z-10">
@@ -70,8 +66,15 @@ function MainPage() {
         EXC
       </div>
       <Canvas>
-        <OrbitControls ref={orbitControlsRef} autoRotate={rotate} enableRotate={rotate} maxDistance={2} />
-        <perspectiveCamera ref={cameraRef} position={[0, 0.5, 5]} />
+        <OrbitControls
+          ref={orbitControlsRef}
+          autoRotate={rotate}
+          enableRotate={rotate}
+          maxDistance={1.5}
+          enableZoom={false}
+          autoRotateSpeed={2}
+        />
+        <perspectiveCamera ref={cameraRef} position={[0, 0.5, 0]} />
 
         <Environment files={"/dirt-road.hdr"} />
         <ambientLight intensity={1} />
@@ -83,28 +86,50 @@ function MainPage() {
 
         <group>
           <primitive object={exc} position-y={-0.25} scale={[1, 1, 1]} />
-          <Html className="flex" position={[0.0, 0.7, 0.2]}>
-            <button
-              className="opacity-80 hover:opacity-100 text-sm text-slate-200 w-[2.3rem] px-2 py-2 
-                 rounded-full bg-slate-500 hover:bg-slate-700 transition ease-in-out duration-300"
-              onClick={() => {
-                setSpecific([0.0, 0.3, -0.2]);
-                handleZoomInTransition([0.0, 0.7, 0.2]);
-                setRotate((prev) => !prev);
-
-                if (!rotate) {
-                  setSpecific([0, 0, -4]);
-                  handleZoomInTransition([0, 0.5, 0]);
-                }
-              }}
-            >
-              1
-            </button>
-          </Html>
+          <Button
+            setTransitionDuration={setTransitionDuration}
+            setSpecific={setSpecific}
+            handleZoomInTransition={handleZoomInTransition}
+            setRotate={setRotate}
+            rotate={rotate}
+            pos={[0.0, 0.7, 0.2]}
+            specific={[0.0, 0.3, -0.2]}
+            nr={1}
+          />
+          <Button
+            setTransitionDuration={setTransitionDuration}
+            setSpecific={setSpecific}
+            handleZoomInTransition={handleZoomInTransition}
+            setRotate={setRotate}
+            rotate={rotate}
+            pos={[0.0, 0.1, 0.1]}
+            specific={[-0.7, 0.13, -0.82]}
+            nr={2}
+          />
+          <Button
+            setTransitionDuration={setTransitionDuration}
+            setSpecific={setSpecific}
+            handleZoomInTransition={handleZoomInTransition}
+            setRotate={setRotate}
+            rotate={rotate}
+            pos={[0.1, 0.1, 0.5]}
+            specific={[-0.49, 0.48, 0.58]}
+            nr={3}
+          />
+          <Button
+            setTransitionDuration={setTransitionDuration}
+            setSpecific={setSpecific}
+            handleZoomInTransition={handleZoomInTransition}
+            setRotate={setRotate}
+            rotate={rotate}
+            pos={[-0.1, 0.35, -0.7]}
+            specific={[-0.53, 0.06, -0.53]}
+            nr={4}
+          />
         </group>
       </Canvas>
-      <div className="absolute top-0 left-0 w-full h-[100vh] flex p-4 transition ease-in-out duration-500 pointer-events-none">
-        <div className="bg-black w-1/5 rounded-2xl opacity-80">
+      <div className="absolute top-0 left-0 w-1/4 h-[50vh] flex p-[2rem] transition ease-in-out duration-500 pointer-events-none">
+        <div className="bg-black w-full rounded-2xl opacity-75">
           <h1 className="header text-white text-2xl p-6">KTM 450 EXC</h1>
           <a className="header text-white text-xl p-6">asdasd as d asd ad </a>
         </div>

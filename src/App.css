@@ -12,3 +12,30 @@
 body {
   overflow-y: hidden; /* Prevent scrolling down */
 }
+
+.rubik-wet paint-regular {
+  font-family: "Rubik Wet Paint", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.rubik-wet {
+  font-family: "Rubik Wet Paint", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.gradient-background {
+  background: linear-gradient(to bottom, #6b6b6b, #7c7979);
+}
+
+.information {
+  opacity: 0;
+  height: 0;
+  transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
+}
+
+.show-info {
+  opacity: 1;
+  height: 17rem;
+}

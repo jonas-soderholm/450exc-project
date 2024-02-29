@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { Html } from "@react-three/drei";
 
 const ktmInformation = {
   general: {
@@ -27,19 +27,41 @@ const ktmInformation = {
 export function EXCInformation() {
   const [header, setHeader] = useState("");
   const [info, setInfo] = useState("");
+  const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
     setHeader(ktmInformation.general.header);
     setInfo(ktmInformation.general.info);
   }, []);
 
+  const handleMoreInfoClick = () => {
+    setShowInfo(!showInfo);
+  };
+
   return (
-    <div className="absolute ov top-0 left-0 w-1/3 h-auto flex p-[2rem] transition ease-in-out duration-500 pointer-events-none">
-      <div className="bg-black w-full rounded-2xl opacity-75">
-        <h1 className="header text-white text-4xl p-6">{header}</h1>
-        <p className="header text-white text-2xl p-6">{info}</p>
+    <>
+      <div className="absolute top-0 left-0 w-full flex md:p-[2rem] p-[2rem] transition ease-in-out duration-500">
+        <div className="flex flex-col items-center justify-center">
+          <h1 className="rubik-wet text-white md:text-[5rem] text-[3rem]">KTM 450 EXC</h1>
+          <button
+            className="hover:cursor-pointer  bg-slate-50 px-2 py-1 rounded-full opacity-50"
+            onClick={handleMoreInfoClick}
+          >
+            {showInfo ? "hide info" : "more info"}
+          </button>
+        </div>
       </div>
-    </div>
+      {/* Additional information section */}
+      <div
+        className={`information absolute top-0  left-0 w-[38.2rem] mt-[10rem] flex p-[2rem] pointer-events-none ${
+          showInfo ? "show-info" : ""
+        }`}
+      >
+        <div className="bg-black w-full rounded-2xl opacity-75 overflow-hidden ">
+          <p className="info text-white text-2xl p-6">{info}</p>
+        </div>
+      </div>
+    </>
   );
 }
 

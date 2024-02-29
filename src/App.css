@@ -8,3 +8,7 @@
   flex-direction: column; */
   /* background-color: #00000081; */
 }
+
+body {
+  overflow-y: hidden; /* Prevent scrolling down */
+}

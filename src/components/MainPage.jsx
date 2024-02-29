@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { Camera, Vector3 } from "three";
 import { button, useControls } from "leva";
 import { Button } from "./Buttons";
+import { EXCInformation } from "./EXCInformation";
 
 function MainPage() {
   const { scene: exc } = useGLTF("/450exc.glb");
@@ -60,7 +61,7 @@ function MainPage() {
         KTM 450
       </div>
       <div
-        className="opacity-50 absolute top-[40rem] left-0 right-0 bottom-0 text-[60vw] flex justify-center items-center z-0 text-[#ffffff] pointer-events-none"
+        className="opacity-25 absolute top-[40rem] left-0 right-0 bottom-0 text-[60vw] flex justify-center items-center z-0 text-[#ffffff] pointer-events-none"
         style={{ backgroundColor: "transparent", whiteSpace: "nowrap", overflow: "visible" }}
       >
         EXC
@@ -76,11 +77,11 @@ function MainPage() {
         />
         <perspectiveCamera ref={cameraRef} position={[0, 0.5, 0]} />
 
-        <Environment files={"/dirt-road.hdr"} />
+        <Environment files={"/studio.hdr"} />
         <ambientLight intensity={1} />
-        <directionalLight position={[0, 10, 0]} intensity={1} />
-        <directionalLight position={[0, -10, 0]} intensity={1} />
-        <spotLight position={[5, 10, 5]} angle={0.5} intensity={0} penumbra={1} />
+        <directionalLight position={[0, 10, 0]} intensity={0.5} />
+        {/* <directionalLight position={[0, -10, 0]} intensity={1} /> */}
+        {/* <spotLight position={[5, 10, 5]} angle={0.5} intensity={0} penumbra={1} /> */}
         <pointLight position={[-5, 5, 5]} intensity={0} />
         <pointLight position={[-5, -10, 5]} intensity={0} />
 
@@ -128,12 +129,7 @@ function MainPage() {
           />
         </group>
       </Canvas>
-      <div className="absolute top-0 left-0 w-1/4 h-[50vh] flex p-[2rem] transition ease-in-out duration-500 pointer-events-none">
-        <div className="bg-black w-full rounded-2xl opacity-75">
-          <h1 className="header text-white text-2xl p-6">KTM 450 EXC</h1>
-          <a className="header text-white text-xl p-6">asdasd as d asd ad </a>
-        </div>
-      </div>
+      <EXCInformation />
     </div>
   );
 }

@@ -23,7 +23,7 @@ export function Button({
           setRotate((prev) => !prev);
 
           if (!rotate) {
-            setTransitionDuration(1.5);
+            setTransitionDuration(1.4);
             setSpecific([-1.3, 0, 0]);
             handleZoomInTransition([0, 0.5, 0]);
           }

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Html } from "@react-three/drei";
+import { useDataContext } from "./SharedContext";
 
 export function Button({
   setTransitionDuration,
@@ -11,6 +12,16 @@ export function Button({
   specific,
   nr,
 }) {
+  const { informationNr, setInformationNr } = useDataContext();
+  const { specificInfoToggle, setSpecificInfoToggle } = useDataContext();
+
+  useEffect(() => {
+    setTransitionDuration(1.8);
+    setSpecific([-2, 0, -1]);
+    handleZoomInTransition([0, 0.25, 0]);
+    setRotate(true);
+  }, [specificInfoToggle]);
+
   return (
     <Html className="flex" position={pos}>
       <button
@@ -20,13 +31,8 @@ export function Button({
           setTransitionDuration(1);
           setSpecific(specific);
           handleZoomInTransition(pos);
-          setRotate((prev) => !prev);
-
-          if (!rotate) {
-            setTransitionDuration(1.8);
-            setSpecific([-2, 0, -1]);
-            handleZoomInTransition([0, 0.25, 0]);
-          }
+          setRotate(false);
+          setInformationNr(nr);
         }}
       >
         {nr}

@@ -39,3 +39,18 @@ body {
   opacity: 1;
   height: 17rem;
 }
+
+.show-specific-info,
+.show-specific-info.hide {
+  transition: opacity 0.5s ease;
+}
+
+.show-specific-info {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.show-specific-info.hide {
+  opacity: 0;
+  pointer-events: none;
+}

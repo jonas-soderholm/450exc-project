@@ -12,11 +12,13 @@ export function Button({
   specific,
   nr,
 }) {
+  // eslint-disable-next-line
   const { informationNr, setInformationNr } = useDataContext();
-  const { specificInfoToggle, setSpecificInfoToggle } = useDataContext();
+  const { specificInfoToggle } = useDataContext();
+  // eslint-disable-next-line
   const { backToOrignalview, setBackToOrignalview } = useDataContext();
   const { buttonHider, setButtonHider } = useDataContext(false);
-  const { isMobile, setIsMobile } = useDataContext(false);
+  const { isMobile } = useDataContext(false);
 
   // Set view to original
   useEffect(() => {

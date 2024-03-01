@@ -5,7 +5,6 @@ import { gsap } from "gsap";
 import { Button } from "./Buttons";
 import { EXCInformation } from "./EXCInformation";
 import LoadingScreen from "./LoadingScreen";
-import { useControls } from "leva";
 import { useDataContext } from "./SharedContext";
 
 function MainPage() {
@@ -45,18 +44,8 @@ function MainPage() {
     }
   }, [isMobileLandscape]);
 
-  // const meshPosition = useControls("Position", {
-  //   x: 0,
-  //   y: 0,
-  //   z: 0,
-  // });
-
   const handleZoomInTransition = (target) => {
     setTargetPosition(target);
-
-    // if (orbitControlsRef.current) {
-    //   orbitControlsRef.current.object.rotation.y = Math.PI;
-    // }
   };
 
   // Smooth camera transitions
@@ -72,9 +61,6 @@ function MainPage() {
         x: targetPosition[0] + specific[0],
         y: targetPosition[1] + specific[1],
         z: targetPosition[2] + specific[2],
-        // x: targetPosition[0] + meshPosition.x,
-        // y: targetPosition[1] + meshPosition.y,
-        // z: targetPosition[2] + meshPosition.z,
         duration: transitionDuration,
       });
       gsap.to(orbitControlsRef.current.object, { duration: transitionDuration });

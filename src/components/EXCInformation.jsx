@@ -32,12 +32,14 @@ export function EXCInformation() {
   const [showGeneralInfo, setShowGeneralInfo] = useState(false);
   const [showSpecificInfo, setShowSpecificInfo] = useState(false);
   const [clickedSpecific, setClickedSpecific] = useState(false);
-  const { informationNr, setInformationNr } = useDataContext();
+  const { informationNr } = useDataContext();
+  // eslint-disable-next-line
   const { specificInfoToggle, setSpecificInfoToggle } = useDataContext();
-  const { backToOrignalview, setBackToOrignalview } = useDataContext();
+  const { backToOrignalview } = useDataContext();
+  // eslint-disable-next-line
   const { buttonHider, setButtonHider } = useDataContext(true);
   const firstUpdate = useRef(true);
-  const { isMobile, setIsMobile } = useDataContext(false);
+  const { isMobile } = useDataContext(false);
 
   const handleGeneralInfoClick = () => {
     setShowGeneralInfo((prev) => !prev);

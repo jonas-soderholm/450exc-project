@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
-  /* min-height: 100vh;
-  display: flex;
-  flex-direction: column; */
-  /* background-color: #6b6b6b; */
-}
-
 body {
   overflow-y: hidden;
 }

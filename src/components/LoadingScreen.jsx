@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDataContext } from "./SharedContext";
 
 function LoadingScreen() {
+  // eslint-disable-next-line
   const { buttonHider, setButtonHider } = useDataContext(false);
   const [loadingScreen, setLoadingScreen] = useState(true);
   const [precentageLoaded, setPrecentageLoaded] = useState(0);

@@ -1,9 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
-import { OrbitControls, useGLTF, Environment, Html, SoftShadows } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useGLTF, Environment, SoftShadows } from "@react-three/drei";
 import { gsap } from "gsap";
-import { Camera, Vector3 } from "three";
-import { button, useControls } from "leva";
 import { Button } from "./Buttons";
 import { EXCInformation } from "./EXCInformation";
 
@@ -16,7 +14,6 @@ function MainPage() {
   const [rotate, setRotate] = useState(true);
   const [zoom, setZoom] = useState(1);
   const [transitionDuration, setTransitionDuration] = useState(5);
-  const [zoomDistance, setZoomDistance] = useState(1.4);
 
   const handleZoomInTransition = (target) => {
     setTargetPosition(target);
@@ -32,9 +29,9 @@ function MainPage() {
   //   z: 0,
   // });
 
+  // Smooth camera transitions
   useEffect(() => {
     if (orbitControlsRef.current) {
-      // Use GSAP's lerp function to smoothly transition the camera position and zoom
       gsap.to(orbitControlsRef.current.target, {
         x: targetPosition[0],
         y: targetPosition[1] - 0.4,
@@ -54,6 +51,7 @@ function MainPage() {
     }
   }, [targetPosition, zoom]);
 
+  // Set all parts of exc to recieve shadows
   useEffect(() => {
     if (exc) {
       exc.traverse((child) => {
@@ -69,13 +67,7 @@ function MainPage() {
     <>
       <div className="gradient-background  h-[100vh] w-[100vw] relative z-10">
         <Canvas shadows>
-          <SoftShadows // Wrap your Canvas with SoftShadows component
-            frustum={3.75}
-            size={35}
-            near={9.5}
-            samples={17}
-            rings={11}
-          />
+          <SoftShadows frustum={3.75} size={35} near={9.5} samples={17} rings={11} />
           <OrbitControls
             ref={orbitControlsRef}
             autoRotate={rotate}

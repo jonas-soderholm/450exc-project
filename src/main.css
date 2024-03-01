@@ -35,13 +35,36 @@ body {
   transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 
+/* General info */
 .show-info {
   opacity: 1;
-  height: 17rem;
+  height: 18rem;
+  transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 
+/* Media query for phones */
+@media only screen and (max-width: 600px) {
+  .show-info {
+    opacity: 1;
+    height: 25rem;
+  }
+}
+
+.show-general-button {
+  opacity: 0.7;
+  pointer-events: auto;
+}
+
+.show-general-button-hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Specific info */
 .show-specific-info,
-.show-specific-info.hide {
+.show-specific-info-hide,
+.show-general-button,
+.show-general-button-hide {
   transition: opacity 0.5s ease;
 }
 
@@ -50,7 +73,7 @@ body {
   pointer-events: auto;
 }
 
-.show-specific-info.hide {
+.show-specific-info-hide {
   opacity: 0;
   pointer-events: none;
 }

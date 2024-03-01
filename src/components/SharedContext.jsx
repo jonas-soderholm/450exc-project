@@ -7,7 +7,8 @@ export const useDataContext = () => useContext(ContextProvider);
 export const DataContextProvider = ({ children }) => {
   const [informationNr, setInformationNr] = useState(0);
   const [specificInfoToggle, setSpecificInfoToggle] = useState(false);
-  const [backToOrignalview, setBackToOrignalview] = useState(true);
+  const [backToOrignalview, setBackToOrignalview] = useState(false);
+  const [buttonHider, setButtonHider] = useState(false);
 
   return (
     <ContextProvider.Provider
@@ -18,6 +19,8 @@ export const DataContextProvider = ({ children }) => {
         setSpecificInfoToggle,
         backToOrignalview,
         setBackToOrignalview,
+        buttonHider,
+        setButtonHider,
       }}
     >
       {children}

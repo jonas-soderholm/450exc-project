@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import MainPage from "./components/MainPage.jsx";
-import "./App.css";
+import "./main.css";
 import { DataContextProvider } from "./components/SharedContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

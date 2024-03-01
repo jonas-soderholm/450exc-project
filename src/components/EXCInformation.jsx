@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Html } from "@react-three/drei";
 import { useDataContext } from "./SharedContext";
 
 const ktmInformation = [
@@ -9,12 +8,12 @@ const ktmInformation = [
   },
   {
     // Handle bars
-    info: `The KTM 450 EXC features a cutting-edge 450cc single-cylinder engine, equipped with fuel injection and advanced engine management. This high-performance powerplant delivers exceptional torque and throttle response, providing agile and precise performance on any terrain.`,
+    info: `The KTM 450 EXC features Pro Taper handlebars, expertly crafted from lightweight, high-strength aluminum alloy. With customizable bend options, these handlebars offer precise control and ergonomic comfort, tailored to the rider's preferences and riding demands.`,
     img: "./protaper.png",
   },
   {
     // Engine
-    info: `The KTM 450 EXC features Pro Taper handlebars, expertly crafted from lightweight, high-strength aluminum alloy. With customizable bend options, these handlebars offer precise control and ergonomic comfort, tailored to the rider's preferences and riding demands.`,
+    info: `The KTM 450 EXC features a cutting-edge 450cc single-cylinder engine, equipped with fuel injection and advanced engine management. This high-performance powerplant delivers exceptional torque and throttle response, providing agile and precise performance on any terrain.`,
     img: "./engine.png",
   },
   {
@@ -30,12 +29,13 @@ const ktmInformation = [
 ];
 
 export function EXCInformation() {
-  const [header, setHeader] = useState("");
-  const [info, setInfo] = useState("");
   const [showGeneralInfo, setShowGeneralInfo] = useState(false);
   const [showSpecificInfo, setShowSpecificInfo] = useState(false);
   const { informationNr, setInformationNr } = useDataContext();
   const { specificInfoToggle, setSpecificInfoToggle } = useDataContext();
+  const { backToOrignalview, setBackToOrignalview } = useDataContext();
+  const { buttonHider, setButtonHider } = useDataContext(true);
+
   const firstUpdate = useRef(true);
 
   const handleGeneralInfoClick = () => {
@@ -44,29 +44,36 @@ export function EXCInformation() {
 
   const handleCloseSpecific = () => {
     setShowSpecificInfo(false);
-    setSpecificInfoToggle(!specificInfoToggle);
-    console.log(specificInfoToggle);
+    setSpecificInfoToggle((prev) => !prev);
+
+    setTimeout(() => {
+      setButtonHider(false);
+    }, 700);
   };
 
+  // Show specific info
   useEffect(() => {
+    setShowGeneralInfo(false);
+
     const timer = setTimeout(() => {
       !firstUpdate.current ? setShowSpecificInfo(true) : (firstUpdate.current = false);
     }, 500);
 
-    setShowGeneralInfo(false);
-
     return () => clearTimeout(timer);
-  }, [informationNr]);
+  }, [backToOrignalview]);
 
   return (
     <>
-      <div className="absolute top-0 left-0 w-full flex md:p-[2rem] p-[2rem] transition ease-in-out duration-500">
+      <div className="absolute top-0 md:left-0 w-full flex md:p-[2rem] text-center md:justify-normal justify-center transition ease-in-out duration-500">
         <div className="flex flex-col items-center justify-center">
           <h1 className="rubik-wet text-white md:text-[5rem] text-[3rem]">KTM 450 EXC</h1>
           <button
-            className="hover:cursor-pointer bg-slate-50 z-20 px-2 py-1 rounded-full opacity-50"
+            className={`hover:cursor-pointer bg-slate-200 md:hover:opacity-100 z-20 px-2 py-1 rounded-full opacity-50 
+            ${showSpecificInfo ? "show-general-button-hide" : "show-general-button"}`}
             onClick={() => {
-              !showSpecificInfo && handleGeneralInfoClick();
+              {
+                !showSpecificInfo && handleGeneralInfoClick();
+              }
             }}
           >
             {showGeneralInfo ? "hide info" : "more info"}
@@ -75,33 +82,36 @@ export function EXCInformation() {
       </div>
       {/* KTM EXC general information */}
       <div
-        className={`information absolute top-0 left-0 w-[38.2rem] mt-[10rem] 
+        className={`information absolute top-0 left-0 md:w-[38.2rem] md:mt-[10rem] mt-[6rem] 
     flex p-[2rem] pointer-events-none ${showGeneralInfo ? "show-info" : ""}`}
       >
-        <div className="bg-black w-full rounded-2xl opacity-75 overflow-hidden">
+        <div className="md:bg-[#000000d5] bg-[#070707] w-full rounded-2xl opacity-90 overflow-hidden">
           <p className="info text-white text-2xl p-6">{ktmInformation[0].info}</p>
         </div>
       </div>
       {/* KTM EXC specific information after button clicks */}
       <div
         className={`absolute top-0 left-0 h-full w-full 
-    flex px-[15vw] py-[9rem]
-     ${showSpecificInfo ? "show-specific-info" : "show-specific-info hide"}`}
+    flex md:px-[20vw] px-[8vw] py-[10rem]
+     ${showSpecificInfo ? "show-specific-info" : "show-specific-info-hide"}`}
       >
         <div className="flex flex-col bg-[#000000d5] rounded-2xl overflow-hidden relative">
           {/* Add close button here */}
           <button
-            className="absolute top-4 right-4 z-10 text-white rounded-full p-2"
+            className={`absolute show-specific-info top-4 right-4 z-10 md:opacity-75 md:hover:opacity-100 
+            text-[#373737] rounded-full p-2 bg-[#f4f4f4]`}
             onClick={() => {
               handleCloseSpecific();
             }}
           >
-            ❌
+            close
           </button>
           <div className="img flex justify-center items-center  overflow-hidden">
-            <img className="w-auto h-[25rem] mt-[3rem]" src={`${ktmInformation[informationNr].img}`} alt="" />
+            <img className="w-auto md:h-[25rem] mt-[3rem] p-10 " src={`${ktmInformation[informationNr].img}`} alt="" />
           </div>
-          <p className="info my-auto text-center text-white text-2xl px-[2vw]">{ktmInformation[informationNr].info}</p>
+          <p className="info my-auto text-center text-white md:text-2xl text-l p-5 px-[2vw]">
+            {ktmInformation[informationNr].info}
+          </p>
         </div>
       </div>
     </>

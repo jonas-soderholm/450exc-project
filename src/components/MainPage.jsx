@@ -19,19 +19,31 @@ function MainPage() {
   const [transitionDuration, setTransitionDuration] = useState(5);
   const { isMobile, setIsMobile } = useDataContext(false);
 
+  // Check if phone landscape
+  const [isMobileLandscape, setIsMobileLandscape] = useState(
+    window.innerWidth < 1024 && window.innerWidth > window.innerHeight
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileLandscape(window.innerWidth < 1024 && window.innerWidth > window.innerHeight);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Check if phone
   useEffect(() => {
     const windowWidth = window.innerWidth;
     if (windowWidth <= 600) {
       setIsMobile(true);
       setZoom(5);
-      console.log("phone");
     } else {
       setIsMobile(false);
       setZoom(1.8);
-      console.log("pc");
     }
-  }, []);
+  }, [isMobileLandscape]);
 
   // const meshPosition = useControls("Position", {
   //   x: 0,
@@ -42,9 +54,9 @@ function MainPage() {
   const handleZoomInTransition = (target) => {
     setTargetPosition(target);
 
-    if (orbitControlsRef.current) {
-      orbitControlsRef.current.object.rotation.y = Math.PI; // Rotate 180 degrees around the y-axis
-    }
+    // if (orbitControlsRef.current) {
+    //   orbitControlsRef.current.object.rotation.y = Math.PI;
+    // }
   };
 
   // Smooth camera transitions
@@ -67,7 +79,7 @@ function MainPage() {
       });
       gsap.to(orbitControlsRef.current.object, { duration: transitionDuration });
     }
-  }, [targetPosition]);
+  }, [targetPosition, isMobileLandscape]);
 
   // Set all parts of exc to recieve shadows
   useEffect(() => {
@@ -84,7 +96,14 @@ function MainPage() {
   return (
     <>
       <LoadingScreen />
-      <div className="gray-background  h-[100vh] w-[100vw] relative z-10">
+      <div>
+        {isMobileLandscape && (
+          <div className="montserrat-body fixed top-0 left-0 right-0 bottom-0 #727171 text-white flex justify-center items-center z-50">
+            Please switch to portrait mode to use this app.
+          </div>
+        )}
+      </div>
+      <div className={`gray-background h-[100vh] w-[100vw] relative z-10 ${isMobileLandscape ? "hidden" : "visible"} `}>
         <Canvas shadows>
           <SoftShadows frustum={3.75} size={35} near={9.5} samples={17} rings={11} />
           <OrbitControls
@@ -108,14 +127,9 @@ function MainPage() {
             shadow-mapSize={[1024, 1024]}
           />
           {/* Floor */}
-          <mesh
-            rotation={[-Math.PI / 2, 0, 0]} // Rotate the plane to be horizontal
-            position={[0, -0.58, 0]} // Adjust position as needed
-            receiveShadow
-            scale={(100, 100, 100)} // This enables the mesh to receive shadows
-          >
-            <planeGeometry args={[10, 10]} /> {/* Adjust size as needed */}
-            <meshStandardMaterial color="grey" receiveShadow /> {/* Set receiveShadow on material */}
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.58, 0]} receiveShadow scale={(100, 100, 100)}>
+            <planeGeometry args={[10, 10]} />
+            <meshStandardMaterial color="grey" receiveShadow />
           </mesh>
           {/* EXC 450 */}
           <group castShadow rotation={[0, 5.5, 0]}>

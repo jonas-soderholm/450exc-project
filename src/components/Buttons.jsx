@@ -29,9 +29,9 @@ export function Button({
   return (
     <Html className="flex" position={pos}>
       <button
-        className={`text-xl ${
+        className={`md:text-xl text-sm ${
           !buttonHider ? "hover:opacity-100" : ""
-        } text-slate-700 w-[2.85rem] px-2 py-2 bg-slate-200 rounded-full transition-opacity duration-500 ${
+        } text-slate-700 md:w-[2.85rem] w-[1.75rem] px-2 md:py-2 py-1 bg-slate-200 rounded-full transition-opacity duration-500 ${
           !buttonHider ? "opacity-70 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => {

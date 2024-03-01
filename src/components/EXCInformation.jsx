@@ -31,16 +31,17 @@ const ktmInformation = [
 export function EXCInformation() {
   const [showGeneralInfo, setShowGeneralInfo] = useState(false);
   const [showSpecificInfo, setShowSpecificInfo] = useState(false);
+  const [clickedSpecific, setClickedSpecific] = useState(false);
   const { informationNr, setInformationNr } = useDataContext();
   const { specificInfoToggle, setSpecificInfoToggle } = useDataContext();
   const { backToOrignalview, setBackToOrignalview } = useDataContext();
   const { buttonHider, setButtonHider } = useDataContext(true);
-
   const firstUpdate = useRef(true);
+  const { isMobile, setIsMobile } = useDataContext(false);
 
   const handleGeneralInfoClick = () => {
     setShowGeneralInfo((prev) => !prev);
-    setButtonHider((prev) => !prev);
+    isMobile && setButtonHider((prev) => !prev);
   };
 
   const handleCloseSpecific = () => {
@@ -48,13 +49,15 @@ export function EXCInformation() {
     setSpecificInfoToggle((prev) => !prev);
 
     setTimeout(() => {
+      setClickedSpecific(false);
       setButtonHider(false);
     }, 700);
   };
 
-  // Show specific info
+  // Show specific info and general button setup
   useEffect(() => {
     setShowGeneralInfo(false);
+    !firstUpdate.current && setClickedSpecific(true);
 
     const timer = setTimeout(() => {
       !firstUpdate.current ? setShowSpecificInfo(true) : (firstUpdate.current = false);
@@ -65,15 +68,22 @@ export function EXCInformation() {
 
   return (
     <>
+      {/* KTM header and info button */}
       <div className="absolute top-0 md:left-0 w-full flex md:p-[2rem] text-center md:justify-normal justify-center transition ease-in-out duration-500">
         <div className="flex flex-col items-center justify-center">
           <h1 className="rubik-wet text-white md:text-[5rem] text-[3rem]">KTM 450 EXC</h1>
           <button
-            className={`hover:cursor-pointer bg-slate-200 md:hover:opacity-100 z-20 px-2 py-1 rounded-full opacity-50 
-            ${showSpecificInfo ? "show-general-button-hide" : "show-general-button"}`}
+            className={` montserrat-body hover:cursor-pointer bg-slate-200 
+            md:hover:opacity-100 z-20 px-2 py-1 rounded-full opacity-50 
+     
+            ${
+              clickedSpecific
+                ? " pointer-events-none show-general-button-hide"
+                : "pointer-events-auto show-general-button"
+            }`}
             onClick={() => {
               {
-                !showSpecificInfo && handleGeneralInfoClick();
+                !clickedSpecific && handleGeneralInfoClick();
               }
             }}
           >
@@ -83,11 +93,13 @@ export function EXCInformation() {
       </div>
       {/* KTM EXC general information */}
       <div
-        className={`information absolute top-0 left-0 md:w-[38.2rem] md:mt-[10rem] mt-[6rem] 
+        className={`information absolute top-0 left-0  md:w-[38.2rem] md:mt-[10rem] mt-[6rem] 
     flex p-[2rem] pointer-events-none ${showGeneralInfo ? "show-info" : ""}`}
       >
-        <div className="md:bg-[#000000d5] bg-[#070707] w-full rounded-2xl opacity-90 overflow-hidden">
-          <p className="info text-white text-2xl p-6">{ktmInformation[0].info}</p>
+        <div className="bg-[#000000d5] mt-3 flex w-full items-center rounded-2xl opacity-90 overflow-hidden">
+          <p className="info montserrat-body text-center text-white md:text-2xl text-xl p-4">
+            {ktmInformation[0].info}
+          </p>
         </div>
       </div>
       {/* KTM EXC specific information after button clicks */}
@@ -99,18 +111,18 @@ export function EXCInformation() {
         <div className="flex flex-col bg-[#000000d5] rounded-2xl overflow-hidden relative">
           {/* Add close button here */}
           <button
-            className={`absolute show-specific-info top-4 right-4 z-10 md:opacity-75 md:hover:opacity-100 
-            text-[#373737] rounded-full p-2 bg-[#f4f4f4]`}
+            className={`absolute montserrat-body  show-specific-info top-4 right-4 z-10 md:opacity-75 md:hover:opacity-100 
+            text-slate-700 rounded-full p-2 bg-[#f4f4f4]`}
             onClick={() => {
               handleCloseSpecific();
             }}
           >
             close
           </button>
-          <div className="img flex justify-center items-center  overflow-hidden">
+          <div className="img flex  justify-center items-center  overflow-hidden">
             <img className="w-auto md:h-[25rem] mt-[3rem] p-10 " src={`${ktmInformation[informationNr].img}`} alt="" />
           </div>
-          <p className="info my-auto text-center text-white md:text-2xl text-l p-5 px-[2vw]">
+          <p className="info my-auto montserrat-body text-center text-white md:text-2xl text-l p-5 px-[2vw]">
             {ktmInformation[informationNr].info}
           </p>
         </div>
@@ -120,7 +132,3 @@ export function EXCInformation() {
 }
 
 export default EXCInformation;
-
-// <button className="absolute px-[15vw] py-[9rem] top-4 right-4 text-white" onClick={() => console.log("")}>
-// close
-// </button>

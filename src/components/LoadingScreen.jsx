@@ -6,28 +6,21 @@ function LoadingScreen() {
   const [loadingScreen, setLoadingScreen] = useState(true);
   const [precentageLoaded, setPrecentageLoaded] = useState(0);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setButtonHider(false);
-  //     //setLoadingScreen(false);
-  //   }, 2000);
-  // }, []);
-
   useEffect(() => {
     const interval = setInterval(() => {
       setPrecentageLoaded((prevPercentage) => {
         const nextPercentage = prevPercentage + 1;
         if (nextPercentage >= 100) {
-          clearInterval(interval); // Stop the interval when reaching 100%
+          clearInterval(interval);
           setTimeout(() => {
             setButtonHider(false);
             setLoadingScreen(false);
-          }, 100); // Delay hiding loading screen after reaching 100%
+          }, 100);
         }
         return nextPercentage;
       });
-    }, 2); // Adjust the interval duration for smoother animation
-    return () => clearInterval(interval); // Cleanup function to clear the interval
+    }, 2);
+    return () => clearInterval(interval);
   }, []);
 
   return (

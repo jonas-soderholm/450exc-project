@@ -12,7 +12,7 @@
 body {
   overflow-y: hidden;
 }
-
+/* general */
 .rubik-wet paint-regular {
   font-family: "Rubik Wet Paint", system-ui;
   font-weight: 400;
@@ -25,10 +25,17 @@ body {
   font-style: normal;
 }
 
+.montserrat-body {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .gray-background {
   background: #727171;
 }
-
+/* General info */
 .information {
   opacity: 0;
   height: 0;
@@ -37,10 +44,9 @@ body {
   transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 
-/* General info */
 .show-info {
   opacity: 1;
-  height: 18rem;
+  height: 23rem;
   transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 
@@ -48,7 +54,7 @@ body {
 @media only screen and (max-width: 600px) {
   .show-info {
     opacity: 1;
-    height: 25rem;
+    height: 24rem;
   }
 }
 

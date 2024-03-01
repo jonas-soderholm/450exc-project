@@ -39,7 +39,8 @@ export function EXCInformation() {
   const firstUpdate = useRef(true);
 
   const handleGeneralInfoClick = () => {
-    setShowGeneralInfo(!showGeneralInfo);
+    setShowGeneralInfo((prev) => !prev);
+    setButtonHider((prev) => !prev);
   };
 
   const handleCloseSpecific = () => {

@@ -4,6 +4,9 @@ import { OrbitControls, useGLTF, Environment, SoftShadows } from "@react-three/d
 import { gsap } from "gsap";
 import { Button } from "./Buttons";
 import { EXCInformation } from "./EXCInformation";
+import LoadingScreen from "./LoadingScreen";
+import { useControls } from "leva";
+import { useDataContext } from "./SharedContext";
 
 function MainPage() {
   const { scene: exc } = useGLTF("/450exc.glb");
@@ -14,20 +17,35 @@ function MainPage() {
   const [rotate, setRotate] = useState(true);
   const [zoom, setZoom] = useState(1);
   const [transitionDuration, setTransitionDuration] = useState(5);
+  const { isMobile, setIsMobile } = useDataContext(false);
 
-  const handleZoomInTransition = (target) => {
-    setTargetPosition(target);
-
-    if (!rotate) {
-      cameraRef.current.position.set(0, 1, 0);
+  // Check if phone
+  useEffect(() => {
+    const windowWidth = window.innerWidth;
+    if (windowWidth <= 600) {
+      setIsMobile(true);
+      setZoom(5);
+      console.log("phone");
+    } else {
+      setIsMobile(false);
+      setZoom(1.8);
+      console.log("pc");
     }
-  };
+  }, []);
 
   // const meshPosition = useControls("Position", {
   //   x: 0,
   //   y: 0,
   //   z: 0,
   // });
+
+  const handleZoomInTransition = (target) => {
+    setTargetPosition(target);
+
+    if (orbitControlsRef.current) {
+      orbitControlsRef.current.object.rotation.y = Math.PI; // Rotate 180 degrees around the y-axis
+    }
+  };
 
   // Smooth camera transitions
   useEffect(() => {
@@ -49,7 +67,7 @@ function MainPage() {
       });
       gsap.to(orbitControlsRef.current.object, { duration: transitionDuration });
     }
-  }, [targetPosition, zoom]);
+  }, [targetPosition]);
 
   // Set all parts of exc to recieve shadows
   useEffect(() => {
@@ -65,15 +83,16 @@ function MainPage() {
 
   return (
     <>
-      <div className="gradient-background  h-[100vh] w-[100vw] relative z-10">
+      <LoadingScreen />
+      <div className="gray-background  h-[100vh] w-[100vw] relative z-10">
         <Canvas shadows>
           <SoftShadows frustum={3.75} size={35} near={9.5} samples={17} rings={11} />
           <OrbitControls
             ref={orbitControlsRef}
             autoRotate={rotate}
             enableRotate={rotate}
-            maxDistance={1.5}
-            enableZoom={true}
+            maxDistance={zoom}
+            enableZoom={false}
             autoRotateSpeed={1.2}
           />
           <perspectiveCamera ref={cameraRef} position={[0, 0.5, 0]} />
@@ -99,7 +118,7 @@ function MainPage() {
             <meshStandardMaterial color="grey" receiveShadow /> {/* Set receiveShadow on material */}
           </mesh>
           {/* EXC 450 */}
-          <group castShadow>
+          <group castShadow rotation={[0, 5.5, 0]}>
             <primitive object={exc} position-y={-0.25} scale={[1, 1, 1]} castShadow />
             <Button
               setTransitionDuration={setTransitionDuration}
@@ -108,7 +127,7 @@ function MainPage() {
               setRotate={setRotate}
               rotate={rotate}
               pos={[0.0, 0.7, 0.2]}
-              specific={[0.0, 0.3, -0.2]}
+              specific={[0.06, 0.39, -0.44]}
               nr={1}
             />
             <Button
@@ -117,7 +136,7 @@ function MainPage() {
               handleZoomInTransition={handleZoomInTransition}
               setRotate={setRotate}
               rotate={rotate}
-              pos={[0.0, 0.1, 0.1]}
+              pos={[0.0, +0.1, 0.1]}
               specific={[-0.7, 0.13, -0.82]}
               nr={2}
             />
@@ -128,7 +147,7 @@ function MainPage() {
               setRotate={setRotate}
               rotate={rotate}
               pos={[0.1, 0.1, 0.5]}
-              specific={[-0.49, 0.48, 0.58]}
+              specific={[-1.27, 0.39, -0.1]}
               nr={3}
             />
             <Button
@@ -138,7 +157,7 @@ function MainPage() {
               setRotate={setRotate}
               rotate={rotate}
               pos={[-0.1, 0.35, -0.7]}
-              specific={[-0.53, 0.06, -0.53]}
+              specific={isMobile ? [-0.77, -0.27, -0.25] : [0.63, 0.0, -1.02]}
               nr={4}
             />
           </group>

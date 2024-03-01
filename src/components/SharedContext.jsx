@@ -8,8 +8,8 @@ export const DataContextProvider = ({ children }) => {
   const [informationNr, setInformationNr] = useState(0);
   const [specificInfoToggle, setSpecificInfoToggle] = useState(false);
   const [backToOrignalview, setBackToOrignalview] = useState(false);
-  const [buttonHider, setButtonHider] = useState(false);
-
+  const [buttonHider, setButtonHider] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   return (
     <ContextProvider.Provider
       value={{
@@ -21,6 +21,8 @@ export const DataContextProvider = ({ children }) => {
         setBackToOrignalview,
         buttonHider,
         setButtonHider,
+        isMobile,
+        setIsMobile,
       }}
     >
       {children}

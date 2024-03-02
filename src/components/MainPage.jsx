@@ -85,7 +85,7 @@ function MainPage() {
       <div>
         {isMobileLandscape && (
           <div className="montserrat-body fixed top-0 left-0 right-0 bottom-0 #727171 text-white flex justify-center items-center z-50">
-            Please switch to portrait mode to use this app.
+            Please switch to portrait mode or expand the window size to use app.
           </div>
         )}
       </div>

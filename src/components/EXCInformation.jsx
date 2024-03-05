@@ -95,11 +95,13 @@ export function EXCInformation() {
       </div>
       {/* KTM EXC general information */}
       <div
-        className={`information absolute top-0 left-0  md:w-[38.2rem] md:mt-[10rem] mt-[6rem] 
+        className={`information absolute top-0 left-0  md:w-[38.2rem] md:mt-[11rem] mt-[5.4rem] 
     flex p-[2rem] pointer-events-none ${showGeneralInfo ? "show-info" : ""}`}
       >
-        <div className="bg-[#000000d5] mt-3 flex w-full items-center rounded-2xl opacity-90 overflow-hidden">
-          <p className="info montserrat-body text-center text-white md:text-2xl text-xl p-4">
+        <div className="bg-[#000000d5] flex flex-col w-full items-center rounded-2xl opacity-90 overflow-hidden">
+          <img className="flex md:w-[170px] w-[120px] h-auto md:mt-4 mt-6" src="/bike-logo.png" alt="" />
+
+          <p className="info montserrat-body md:mt-0 mt-2 text-center text-white md:text-2xl text-xl p-4">
             {ktmInformation[0].info}
           </p>
         </div>

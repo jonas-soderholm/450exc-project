@@ -39,7 +39,7 @@ body {
 
 .show-info {
   opacity: 1;
-  height: 23rem;
+  height: 28rem;
   transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 
@@ -47,7 +47,7 @@ body {
 @media only screen and (max-width: 600px) {
   .show-info {
     opacity: 1;
-    height: 24rem;
+    height: 26rem;
   }
 }
 

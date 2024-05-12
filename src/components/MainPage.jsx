@@ -1,5 +1,4 @@
 /* eslint-disable */
-/* eslint-disable */
 import React, { useRef, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Environment, SoftShadows } from "@react-three/drei";

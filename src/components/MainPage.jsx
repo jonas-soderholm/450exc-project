@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useRef, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Environment, SoftShadows } from "@react-three/drei";
@@ -81,7 +82,7 @@ function MainPage() {
 
   return (
     <>
-      <LoadingScreen />
+      {/* <LoadingScreen /> */}
       <div>
         {isMobileLandscape && (
           <div className="montserrat-body fixed top-0 left-0 right-0 bottom-0 #727171 text-white flex justify-center items-center z-50">

@@ -1,38 +1,48 @@
+/* eslint-disable */
 import { useEffect, useState } from "react";
 import { useDataContext } from "./SharedContext";
 
-function LoadingScreen() {
-  // eslint-disable-next-line
-  const { buttonHider, setButtonHider } = useDataContext(false);
-  const [loadingScreen, setLoadingScreen] = useState(true);
-  const [precentageLoaded, setPrecentageLoaded] = useState(0);
+function LoadingScreen({ showModelLoading, showEnvironmentLoading }) {
+  const { setButtonHider } = useDataContext();
+  const [percentageLoaded, setPercentageLoaded] = useState(0);
 
   useEffect(() => {
+    const steps = 100;
+    const duration = 2000; // 3 seconds in milliseconds
+    const stepDuration = duration / steps;
+
     const interval = setInterval(() => {
-      setPrecentageLoaded((prevPercentage) => {
+      setPercentageLoaded((prevPercentage) => {
         const nextPercentage = prevPercentage + 1;
         if (nextPercentage >= 100) {
           clearInterval(interval);
-          setTimeout(() => {
-            setButtonHider(false);
-            setLoadingScreen(false);
-          }, 100);
+          if (showEnvironmentLoading) {
+            setButtonHider(false); // Hide loading screen when environment loading is complete
+          }
         }
         return nextPercentage;
       });
-    }, 2);
+    }, stepDuration);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [showEnvironmentLoading]);
 
   return (
     <>
-      <div
-        className={`absolute rubik-wet text-slate-200 flex-col top-0 gray-background z-[100] w-full h-full loaded flex justify-center items-center 
-     text-center  ${loadingScreen ? "show-loading" : "show-loading-hide"}`}
-      >
-        <div className="md:text-[4rem] text-[2rem]">KTM EXC 450</div>
-        <div className="md:text-[8rem] text-[4rem]">{precentageLoaded}%</div>
-      </div>
+      return (
+      <>
+        <div
+          className={`absolute rubik-wet text-slate-200 flex-col top-0 gray-background z-[200] w-full h-full loaded flex justify-center items-center 
+   text-center ${showEnvironmentLoading && percentageLoaded === 100 ? "show-loading-hide" : ""}`}
+        >
+          {showModelLoading && <div className="md:text-[2rem] text-[2rem]">Loading model: {percentageLoaded}%</div>}
+          {showEnvironmentLoading && (
+            <div className="md:text-[2rem] text-[2rem]">Loading environment: {percentageLoaded}%</div>
+          )}
+          {/* <div className="md:text-[4rem] text-[2rem]">KTM EXC 450</div> */}
+        </div>
+      </>
+      );
     </>
   );
 }

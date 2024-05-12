@@ -1,17 +1,9 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 import { Html } from "@react-three/drei";
 import { useDataContext } from "./SharedContext";
 
-export function Button({
-  setTransitionDuration,
-  setSpecific,
-  handleZoomInTransition,
-  setRotate,
-  rotate,
-  pos,
-  specific,
-  nr,
-}) {
+export function Button({ setTransitionDuration, setSpecific, handleZoomInTransition, setRotate, pos, specific, nr }) {
   // eslint-disable-next-line
   const { informationNr, setInformationNr } = useDataContext();
   const { specificInfoToggle } = useDataContext();
@@ -51,3 +43,15 @@ export function Button({
     </Html>
   );
 }
+
+// PropTypes validation
+Button.propTypes = {
+  setTransitionDuration: PropTypes.func.isRequired,
+  setSpecific: PropTypes.func.isRequired,
+  handleZoomInTransition: PropTypes.func.isRequired,
+  setRotate: PropTypes.func.isRequired,
+  rotate: PropTypes.bool.isRequired,
+  pos: PropTypes.arrayOf(PropTypes.number).isRequired,
+  specific: PropTypes.arrayOf(PropTypes.number).isRequired,
+  nr: PropTypes.number.isRequired,
+};

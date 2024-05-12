@@ -8,7 +8,7 @@ function LoadingScreen({ showModelLoading, showEnvironmentLoading }) {
 
   useEffect(() => {
     const steps = 100;
-    const duration = 2000; // 3 seconds in milliseconds
+    const duration = 1300; // 3 seconds in milliseconds
     const stepDuration = duration / steps;
 
     const interval = setInterval(() => {

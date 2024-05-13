@@ -89,7 +89,7 @@ export function EXCInformation() {
               }
             }}
           >
-            {showGeneralInfo ? "hide info" : "more info"}
+            {showGeneralInfo ? "Hide info" : "More info"}
           </button>
         </div>
       </div>

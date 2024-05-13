@@ -83,9 +83,12 @@ function MainPage() {
   return (
     <>
       {/* <LoadingScreen /> */}
+      <div className="flex justify-center">
+        <img className="absolute h-[5rem] w-[5rem] z-[199] bottom-8" src="./swipe450.png" alt="" />
+      </div>
       <div>
         {isMobileLandscape && (
-          <div className="montserrat-body fixed top-0 left-0 right-0 bottom-0 #727171 text-white flex justify-center items-center z-50">
+          <div className="montserrat-body fixed top-0 left-1/2 bottom-0 #727171 text-white flex justify-center items-center z-50">
             Please switch to portrait mode or expand the window size to use app.
           </div>
         )}

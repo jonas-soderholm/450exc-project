@@ -84,7 +84,7 @@ function MainPage() {
     <>
       {/* <LoadingScreen /> */}
       <div className="flex justify-center">
-        <img className="absolute h-[5rem] w-[5rem] z-[3000] bottom-8 pointer-events-none" src="./swipe450.png" alt="" />
+        <img className="absolute h-[5rem] w-[5rem] z-[199] bottom-8 pointer-events-none" src="./swipe450.png" alt="" />
       </div>
       <div>
         {isMobileLandscape && (
